@@ -194,11 +194,11 @@ router.get('/:_id/mejoralumno',function(req,res,onSuccess){
         {$match:{_id:mongoose.Types.ObjectId(id)}},
         {$unwind:"$alumnos"},
         {$group:{
-        _id: {nroCurso:"$nroCurso",dni:"$alumnos.dni",nombre:"$alumnos.nombre",apellido:"$alumnos.apellido"},
+        _id: {_id:"$_id"},
         mejorNota: {$max:"$alumnos.nota"}
         }}     
     ]).then(function (curso){
-
+        
         res.json(curso[0]);
         console.log(curso);
     }).catch((err) =>{
