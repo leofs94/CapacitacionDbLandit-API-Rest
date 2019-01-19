@@ -193,14 +193,10 @@ router.get('/:_id/mejoralumno',function(req,res,onSuccess){
     Curso.aggregate([
         {$match:{_id:mongoose.Types.ObjectId(id)}},
         {$unwind:"$alumnos"},
-        
-        {$group:{
-        _id: {_id:"$_id",idAlumno:"$alumnos._id"},
-        mejorNota: {$max:"$alumnos.nota"}
-        }}     
+        {$sort:{nota:-1}},
+        {$limit:1}   
     ]).then(function (curso){
-        
-        res.json(curso[0]);
+        res.json(curso[0].alumnos);
         console.log(curso);
     }).catch((err) =>{
         console.error(err);
